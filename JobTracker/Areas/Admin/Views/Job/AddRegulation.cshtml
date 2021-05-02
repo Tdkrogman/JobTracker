@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Regulation>
+@{
+    ViewBag.Title = "Add Regulation";
+}
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Regulation Name</th>
+            <th>Description</th>
+            <th>Requirements</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var r in Model)
+        {
+            <tr>
+                <td>@r.Name</td>
+                <td>@r.Description</td>
+                <td></td>
+                <td>
+                    <a asp-action="AssignRegulation"
+                       asp-route-regulationId="@r.RegulationId" asp-route-jobId="@ViewBag.JobId" class="btn btn-primary">Add</a>
+                </td>
+            </tr>
+            @foreach (var requirement in r.RegulationRequirements)
+            {
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>@requirement.Requirement</td>
+                    <td></td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

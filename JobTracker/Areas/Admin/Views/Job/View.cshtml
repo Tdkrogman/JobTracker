@@ -1,0 +1,156 @@
+﻿@model JobTracker.ViewModels.JobViewModel
+@{
+    ViewBag.Title = "View Job";
+
+}
+<div class="container">
+    <span class="text-success">@TempData["successMessage"]</span>
+    <span class="text-danger">@TempData["errorMessage"]</span>
+    <h2>Details</h2>
+    <div class="row">
+        <label><strong>Job Name:&nbsp;</strong></label>
+        <p>@Model.Job.Name</p>
+    </div>
+    <div class="row">
+        <label><strong>Address:&nbsp;</strong></label>
+        <p>@Model.Job.Address</p>
+    </div>
+    <div class="row">
+        <label><strong>Customer:&nbsp;</strong></label>
+        <p>@Model.Job.Customer.FullName</p>
+    </div>
+    <div class="row">
+        <label><strong>Status:&nbsp;</strong></label>
+        <p>@Model.Job.Status</p>
+    </div>
+    <div class="row">
+        <label><strong>Estimated Start Date:&nbsp;</strong></label>
+        <p>@Model.Job.StartDate.ToShortDateString()</p>
+    </div>
+    <div>
+        <a asp-action="List" class="btn btn-primary">Back</a>
+        <a asp-action="Edit"
+           asp-route-id="@Model.Job.JobId" class="btn btn-primary">Edit</a>
+        <a asp-action="Delete"
+           asp-route-id="@Model.Job.JobId" class="btn btn-outline-danger">Delete</a>
+    </div>
+    <div class="mt-5">
+        <h2>Tasks</h2>
+        @if (Model.Tasks.Count() > 0)
+        {
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Task</th>
+                    <th>Status</th>
+                    <th>Est. Completion Date</th>
+                    <th>
+                        <span style="font-weight: normal; font-size:75%">(Click name to Unassign)</span><br />
+                        Employee
+                    </th>
+                    <th>
+                        <span style="font-weight: normal; font-size:75%;float:left">(Click name to Unassign)</span><br />
+                        Contractor
+                    </th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (JobTracker.Models.Task task in Model.Tasks)
+                {
+                    <tr>
+                        <td>@task.Name</td>
+                        <td>@task.Status</td>
+                        <td>@task.EstCompletionDate.ToShortDateString()</td>
+                        <td>
+                            @foreach (var ta in task.TaskAssignments)
+                            {
+                                @foreach (var e in Model.Employees)
+                                {
+                                    if (e.EmployeeId == ta.EmployeeId && e.EmployeeId != -1)
+                                    {
+                                        <a asp-controller="Task" asp-action="UnassignTask" asp-route-id="@ta.TaskAssignmentId">@e.FullName</a><br />
+                                    }
+                                }
+                            }
+                        </td>
+                        <td>
+                            @foreach (var ta in task.TaskAssignments)
+                            {
+                                @foreach (var c in Model.Contractors)
+                                {
+                                    if (c.ContractorId == ta.ContractorId && c.ContractorId != -1)
+                                    {
+                                        <a asp-controller="Task" asp-action="UnassignTask" asp-route-id="@ta.TaskAssignmentId">@c.FullName</a><br />
+                                    }
+                                }
+                            }
+                        </td>
+                        <td style="font-size:80%">
+                            <a asp-controller="Task"
+                               asp-action="AssignTask"
+                               asp-route-id="@task.TaskId"
+                               class="btn btn-primary">Assign</a><br />
+                            <a asp-controller="Task"
+                               asp-action="EditTask"
+                               asp-route-id="@task.TaskId"
+                               class="btn btn-primary">Edit</a><br />
+                            <a asp-controller="Task"
+                               asp-action="DeleteTask"
+                               asp-route-id="@task.TaskId"
+                               class="btn btn-outline-danger">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        }else { <h4>No Tasks added yet.</h4>}
+        <a asp-action="AddTask" asp-controller="Task" asp-route-id="@Model.Job.JobId" class="btn btn-primary">Add Task</a>
+    </div>
+    <div class="mt-5">
+        <h2>Regulations</h2>
+        @if (Model.JobRegulations.Count() != 0)
+        {
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Regulation Name</th>
+                        <th>Description</th>
+                        <th>Requirements</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var r in Model.JobRegulations)
+                    {
+                        <tr>
+                            <td>@r.Regulation.Name</td>
+                            <td>@r.Regulation.Description</td>
+                            <td></td>
+                            <td>
+                                <a asp-action="RemoveRegulation"
+                                   asp-route-id="@r.JobRegulationId" class="btn btn-outline-danger">Remove</a>
+                            </td>
+                        </tr>
+                        @foreach (var requirement in r.Regulation.RegulationRequirements)
+                        {
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>@requirement.Requirement</td>
+                                <td></td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        }
+        else
+        {
+            <h4>Currently No Regulations Added</h4>
+        }
+        <a asp-action="AddRegulation" asp-route-id="@Model.Job.JobId" class="btn btn-primary">Add Regulation</a>
+    </div>
+</div>

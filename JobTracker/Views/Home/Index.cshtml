@@ -1,0 +1,23 @@
+﻿@model Employee
+@{
+    ViewBag.Title = "Login Page";
+}
+
+<div class="text-center m-auto">
+    <h1 class="display-4">Welcome</h1>
+    <form asp-action="Login" method="post" class="m-auto">
+        <span>@ViewBag.message</span>
+        <div class="row text-danger d-flex justify-content-center">@ViewBag.Error</div>
+        <div class="row pt-2 d-flex justify-content-center">
+            <label class="col-md-3" asp-for="Username">Username:</label>
+            <input class="form-control col-sm-3 col-6" asp-for="Username" type="text" class="form-control" />
+        </div>
+        <div class="row pt-2 d-flex justify-content-center">
+            <label class="col-md-3" asp-for="Password">Password:</label>
+            <input class="form-control col-sm-3 col-6" asp-for="Password" type="password" class="form-control" />
+        </div>
+        <div class="row pt-2 d-flex justify-content-center">
+            <input class="btn btn-primary col-3 col-sm-2" type="submit" value="Login" />
+        </div>
+    </form>
+</div>

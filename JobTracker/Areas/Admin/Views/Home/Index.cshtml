@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "Admin main page";
+}
+<h1>Admin main page</h1>
+<a asp-controller="Job" asp-action="List">Manage Jobs</a>
+<br />
+<a asp-controller="Employee" asp-action="List">Manage Employees</a>
+<br />
+<a asp-controller="Contractor" asp-action="List">Manage Contractors</a>
+<br />
+<a asp-controller="Customer" asp-action="List">Manage Customers</a>
+<br />
+<a asp-controller="Regulation" asp-action="List">Manage Regulations</a>
+<br />
+<a asp-controller="Hours" asp-action="GetEmployee">Employee Hours</a>
+<br />
+<a asp-area="Main" asp-controller="MyTasks" asp-action="List">My Tasks</a>
+<br />

@@ -1,0 +1,55 @@
+﻿@model Employee
+@{
+    ViewBag.Title = $"{ViewBag.Action} Employee";
+    @section Validation {
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
+<div class="container">
+    <h1>@ViewBag.Action Employee</h1>
+    <form asp-action="Edit" method="post">
+        <div class="form-group row">
+            <label asp-for="FName" class="col-2">First Name</label>
+            <input asp-for="FName" type="text" class="form-control col-4" />
+            <span asp-validation-for="FName" class="text-danger col-6"></span>
+        </div>
+        <div class="form-group row">
+            <label asp-for="LName" class="col-2">Last Name</label>
+            <input asp-for="LName" type="text" class="form-control col-4" />
+            <span asp-validation-for="LName" class="text-danger col-6"></span>
+        </div>
+        <div class="form-group row">
+            <label asp-for="PhoneNumber" class="col-2">Phone Number</label>
+            <input asp-for="PhoneNumber" type="tel" placeholder="(xxx)-xxx-xxxx" class="form-control col-4" />
+            <span asp-validation-for="PhoneNumber" class="text-danger col-6"></span>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Email" class="col-2">Email</label>
+            <input asp-for="Email" type="text" placeholder="sample@gmail.com" class="form-control col-4">
+            <span asp-validation-for="Email" class="text-danger col-6"></span>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Role" class="col-2">Role</label>
+            <select asp-for="Role" class="form-control col-4">
+                <option value="employee" selected>Employee</option>
+                <option value="admin">Admin</option>
+            </select>
+            <span asp-validation-for="Role" class="text-danger col-6"></span>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Username" class="col-2">Username</label>
+            <input asp-for="Username" type="text" class="form-control col-4" />
+            <span asp-validation-for="Username" class="text-danger col-6"></span>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="Password" class="col-2">Password</label>
+            <input asp-for="Password" type="text" class="form-control col-4" />
+            <span asp-validation-for="Password" class="text-danger col-6"></span>
+        </div>
+        <input type="hidden" asp-for="EmployeeId" />
+
+        <input type="submit" value="Save" class="btn btn-primary">
+        <a asp-action="List" class="btn btn-primary">Cancel</a>
+    </form>
+</div>

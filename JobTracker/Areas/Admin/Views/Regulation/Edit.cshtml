@@ -1,0 +1,25 @@
+﻿@model JobTracker.ViewModels.RegulationEditViewModel
+@{
+    ViewBag.Title = ViewBag.Action + " Regulation";
+}
+<div class="container">
+    <form asp-action="Edit" method="post">
+        <h1>@Model.Action Regulation</h1>
+
+        <div class="form-group row">
+            <label asp-for="Regulation.Name" class="col-2">Regulation Name</label>
+            <input asp-for="Regulation.Name" type="text" class="form-control col-4" />
+            <span asp-validation-for="Regulation.Name" class="text-danger col-6"></span>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Regulation.Description" class="col-2">Description</label>
+            <textarea asp-for="Regulation.Description" type="text" class="form-control col-4"></textarea>
+            <span asp-validation-for="Regulation.Description" class="text-danger col-6"></span>
+        </div>
+
+        <input type="hidden" asp-for="Regulation.RegulationId" />
+
+        <input type="submit" value="Save" class="btn btn-primary">
+        <a asp-action="List" asp-route-id="@Model.Regulation.RegulationId" class="btn btn-primary">Cancel</a>
+    </form>
+</div>

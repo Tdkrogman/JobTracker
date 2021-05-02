@@ -1,0 +1,15 @@
+﻿@model JobTracker.ViewModels.EmployeeHoursViewModel
+@{ 
+    ViewBag.Title = "Select employee";
+}
+<h1>Select Employee</h1>
+<form asp-action="List" method="post">
+    <select class="form-control col-3" asp-for="Id">
+        @foreach (Employee e in ViewBag.Employees)
+        {
+            <option value="@e.EmployeeId">@e.FullName</option>
+        }
+    </select>
+    <input type="submit" value="Select" class="btn btn-primary" />
+    <input type="hidden" value="@DateTime.Now" asp-for="StartDate"/>
+</form>

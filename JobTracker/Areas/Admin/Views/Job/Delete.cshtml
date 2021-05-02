@@ -1,0 +1,15 @@
+﻿@model Job
+@{ 
+    ViewBag.Title = "Delete Job";
+}
+
+<h2>Confirm Deletion For-</h2>
+<p>Job: @Model.Name</p>
+<p>Customer: @Model.Customer.FullName</p>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="JobId" />
+
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="List" class="btn btn-primary">Cancel</a>
+</form>

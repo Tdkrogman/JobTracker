@@ -1,0 +1,16 @@
+﻿@model JobRegulation
+@{
+    ViewBag.Title = "Remove Regulation";
+}
+
+<h2>Confirm Remove Regulation-</h2>
+<p>Regulation: @Model.Regulation.Name</p>
+<p>Description: @Model.Regulation.Description</p>
+
+<form asp-action="RemoveRegulation" method="post">
+    <input type="hidden" asp-for="@Model.JobRegulationId" />
+    <input type="hidden" asp-for="@Model.JobId" />
+
+    <button type="submit" asp-route-id="@ViewBag.JobId" class="btn btn-danger">Remove</button>
+    <a href="javascript:history.go(-1)" class="btn btn-primary">Cancel</a>
+</form>

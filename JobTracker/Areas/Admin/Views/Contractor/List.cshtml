@@ -1,0 +1,37 @@
+﻿@model List<Contractor>
+@{
+    ViewBag.Title = "Contractor Manager";
+}
+<span class="text-success">@TempData["successMessage"]</span>
+<span class="text-danger">@TempData["errorMessage"]</span>
+<h1>Contractor Manager</h1>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Phone Number</th>
+            <th>Email</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td>@c.FullName</td>
+                <td>@c.PhoneNumber</td>
+                <td>@c.Email</td>
+                <td>
+                    <a asp-action="Edit"
+                       asp-route-id="@c.ContractorId" class="btn btn-primary">Edit</a>
+                </td>
+                <td>
+                    <a asp-action="Delete"
+                       asp-route-id="@c.ContractorId" class="btn btn-outline-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a asp-action="Add" class="btn btn-primary">Add Contractor</a>

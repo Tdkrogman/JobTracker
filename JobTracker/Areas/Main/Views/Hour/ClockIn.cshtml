@@ -1,0 +1,85 @@
+﻿@model JobTracker.ViewModels.EmployeeHoursViewModel
+@{
+    ViewBag.Title = "Employee Hours";
+    DateTime startDate = Model.StartDate;
+    int month = startDate.Month;
+    int year = startDate.Year;
+    DateTime firstDay = new DateTime(year, month, 1);
+    int daysInCurrentMonth = DateTime.DaysInMonth(firstDay.Year, firstDay.Month);
+    DateTime lastDay = new DateTime(year, month, daysInCurrentMonth);
+    int dayOfWeekFirst = ((int)firstDay.DayOfWeek > 0) ? (int)firstDay.DayOfWeek : 7;
+    int dayOfWeekLast = ((int)lastDay.DayOfWeek > 0) ? (int)lastDay.DayOfWeek : 7;
+}
+<form asp-action="RecordHours" method="post">
+    <span class="text-danger">@TempData["errorMessage"]</span>
+    <span class="text-success">@TempData["successMessage"]</span>
+    <h1>How many hours have you worked today?</h1>
+    <input type="text" asp-for="WorkHour.Hours" value="" />
+    <input type="hidden" asp-for="WorkHour.EmployeeId" value="@Model.Employee.EmployeeId" />
+
+    <input type="submit" value="Upload Hours Worked" class="btn btn-primary col-3 ml-4" />
+</form><br/>
+<h3>
+    <a asp-action="PreviousMonth" asp-route-month="@month" asp-route-year="@year"><<</a>
+        @startDate.ToString("MMMM") @year
+    <a asp-action="NextMonth" asp-route-month="@month" asp-route-year="@year">>></a>
+</h3>
+<div class="table-responsive">
+    <table class="table table-bordered hour-table">
+        <thead>
+            <tr>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Saturday</th>
+                <th>Sunday</th>
+            </tr>
+        </thead>
+        <tr align="center">
+            @for (int a = 1; a < dayOfWeekFirst; a++)
+            {
+                @:<td></td>
+            }
+            @for (int i = 1; i <= daysInCurrentMonth; i++)
+            {
+                DateTime renderedDay = new DateTime(firstDay.Year, firstDay.Month, i);
+
+                if (renderedDay.DayOfWeek == DayOfWeek.Sunday)
+                {
+                    @:<td class="calendar-holiday"><h6>@i</h6><p>@foreach (WorkHour w in Model.WorkHours)
+                            {
+                                if ((int)w.Date.Day == i){
+                                    @(w.Hours + " hours")
+                                }
+                            }</p></td></tr><tr align="center">
+                    }
+                    else if (renderedDay.DayOfWeek == DayOfWeek.Saturday)
+                    {
+                    @:<td class="calendar-holiday"><h6>@i</h6><p>@foreach (WorkHour w in Model.WorkHours)
+                            {
+                                if ((int)w.Date.Day == i)
+                                {
+                                    @(w.Hours + " hours")
+                                }
+                            }</p></td>
+                    }
+                    else
+                    {
+                       @:<td><h6>@i</h6><p>@foreach (WorkHour w in Model.WorkHours)
+                            {
+                                if ((int)w.Date.Day == i)
+                                {
+                                    @(w.Hours + " hours")
+                                }
+                            }</p></td>
+                        }
+                    }
+                    @for (int a = 1; a <= 7 - dayOfWeekLast; a++)
+                    {
+                        @:<td></td>
+                    }
+                </tr>
+            </table>
+        </div>

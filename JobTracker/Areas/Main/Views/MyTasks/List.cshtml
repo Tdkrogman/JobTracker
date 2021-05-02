@@ -1,0 +1,62 @@
+﻿@model JobTracker.ViewModels.EmployeeTaskViewModel
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    ViewBag.Title = "Task List";
+    string[] statusOptions;
+    if (HttpContextAccessor.HttpContext.Session.GetString("currentRole") == "admin")
+    {
+        statusOptions = new string[] { "Not Started", "In Progress", "Ready for Inspection", "Done" };
+    }
+    else
+    {
+        statusOptions = new string[] { "Not Started", "In Progress", "Ready for Inspection" };
+    }
+}
+<span class="text-success">@TempData["successMessage"]</span>
+<h1>Assigned Tasks</h1>
+@if (Model.TaskAssignments.Count() == 0)
+{
+    <h3>No Tasks Currently Assigned</h3>
+}
+else
+{
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Job/<br />
+                Address</th>
+            <th>Task</th>
+            <th>Description</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var t in Model.TaskAssignments)
+        {
+            <tr>
+                <td>@t.Task.Job.Name<br />
+                    @t.Task.Job.Address</td>
+                <td>@t.Task.Name</td>
+                <td>@t.Task.Description</td>
+                <td>
+                    <form asp-action="UpdateTask" method="post">
+                        <div class="row">
+                            <select class="form-control col-7 ml-2" asp-for="Task.Status"
+                                    asp-items="(new SelectList(statusOptions, t.Task.Status))">
+                            </select>
+                            <input type="hidden" asp-for="Task.TaskId" value="@t.TaskId" />
+                            <input type="hidden" asp-for="Task.JobId" value="@t.Task.JobId" />
+                            <input type="hidden" asp-for="Task.Name" value="@t.Task.Name" />
+                            <input type="hidden" asp-for="Task.Description" value="@t.Task.Description" />
+                            <input type="hidden" asp-for="Task.EstCompletionDate" value="@t.Task.EstCompletionDate" />
+                            <input type="hidden" asp-for="Task.Job.Name" value="@t.Task.Job.Name" />
+                            <input type="submit" value="Update" class="btn btn-primary col-3 ml-4" />
+                        </div>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+}

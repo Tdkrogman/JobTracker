@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Regulation>
+@{ 
+    ViewBag.Title = "Manage Regulations";
+}
+<span class="text-success">@TempData["successMessage"]</span>
+<span class="text-danger">@TempData["errorMessage"]</span>
+<h1>Regulations Manager</h1>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Regulation Name</th>
+            <th>Description</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var r in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-action="View"
+                       asp-route-id="@r.RegulationId">@r.Name</a>
+                </td>
+                <td>@r.Description</td>
+
+                <td>
+                    <a asp-action="Edit"
+                       asp-route-id="@r.RegulationId" class="btn btn-primary">Edit</a>
+                </td>
+                <td>
+                    <a asp-action="Delete"
+                       asp-route-id="@r.RegulationId" class="btn btn-outline-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a asp-action="Add" class="btn btn-primary">Add Regulation</a>

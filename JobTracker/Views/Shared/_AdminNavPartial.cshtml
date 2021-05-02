@@ -1,0 +1,24 @@
+﻿@{ 
+    var controller = ViewContext.RouteData.Values["controller"].ToString();
+    string isActive(string controllerName) => controller == controllerName? "active" : "";
+}
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <div class="container">
+        
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row">
+            <a class="nav-link nav-item @isActive("Home")" asp-area="Admin" asp-controller="Home" asp-action="Index">Home</a>
+            <a class="nav-link nav-item @isActive("Job") @isActive("Task")" asp-area="Admin" asp-controller="Job" asp-action="List">Jobs</a>
+            <a class="nav-link nav-item @isActive("Employee")" asp-area="Admin" asp-controller="Employee" asp-action="List">Employees</a>
+            <a class="nav-link nav-item @isActive("Contractor")" asp-area="Admin" asp-controller="Contractor" asp-action="List">Contractors</a>
+            <a class="nav-link nav-item @isActive("Customer")" asp-area="Admin" asp-controller="Customer" asp-action="List">Customers</a>
+            <a class="nav-link nav-item @isActive("Regulation")" asp-area="Admin" asp-controller="Regulation" asp-action="List">Regulations</a>
+            <a class="nav-link nav-item @isActive("Hours")" asp-area="Admin" asp-controller="Hours" asp-action="GetEmployee">Employee Hours</a>
+            <a class="nav-link nav-item @isActive("MyTasks")" asp-area="Main" asp-controller="MyTasks" asp-action="List">My Tasks</a>
+            <a class="nav-link nav-item text-dark logout" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a>
+        </div>
+    </div>
+</nav>

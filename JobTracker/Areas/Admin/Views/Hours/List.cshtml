@@ -1,0 +1,83 @@
+﻿@model JobTracker.ViewModels.EmployeeHoursViewModel
+@{ 
+    ViewBag.Title = "Employee Hours";
+    DateTime startDate = Model.StartDate;
+    int month = startDate.Month;
+    int year = startDate.Year;
+    DateTime firstDay = new DateTime(year, month, 1);
+    int daysInCurrentMonth = DateTime.DaysInMonth(firstDay.Year, firstDay.Month);
+    DateTime lastDay = new DateTime(year, month, daysInCurrentMonth);
+    int dayOfWeekFirst = ((int)firstDay.DayOfWeek > 0) ? (int)firstDay.DayOfWeek : 7;
+    int dayOfWeekLast = ((int)lastDay.DayOfWeek > 0) ? (int)lastDay.DayOfWeek : 7;
+}
+<span class="text-success">@TempData["successMessage"]</span>
+<span class="text-danger">@TempData["errorMessage"]</span>
+<h1>Hours for @Model.Employee.FullName</h1>
+<div>
+    <h3>
+        <a asp-action="PreviousMonth" asp-route-month="@month" asp-route-year="@year"><<</a>
+            @startDate.ToString("MMMM") @year
+        <a asp-action="NextMonth" asp-route-month="@month" asp-route-year="@year">>></a>
+    </h3>
+<div class="row">
+<div class="table-responsive">
+<table class="table table-bordered hour-table">
+    <thead>
+        <tr>
+            <th>Monday</th>
+            <th>Tuesday</th>
+            <th>Wednesday</th>
+            <th>Thursday</th>
+            <th>Friday</th>
+            <th>Saturday</th>
+            <th>Sunday</th>
+        </tr>
+    </thead>
+    <tr align="center">
+        @for(int a = 1; a < dayOfWeekFirst; a++)
+        {
+            @:<td></td>
+        }
+        @for(int i = 1; i <= daysInCurrentMonth; i++)
+        {
+            DateTime renderedDay = new DateTime(firstDay.Year, firstDay.Month, i);
+
+            if(renderedDay.DayOfWeek == DayOfWeek.Sunday)
+            {
+                @:<td class="calendar-holiday"><h6>@i</h6><p>@foreach (WorkHour w in Model.WorkHours)
+                {
+                    if ((int)w.Date.Day == i) {
+                        <a asp-action="Edit" asp-route-id="@w.WorkHourId">@(w.Hours + " hours")</a>
+                    }
+                }</p></td></tr><tr align="center">
+            }
+            else if(renderedDay.DayOfWeek == DayOfWeek.Saturday)
+            {
+                @:<td class="calendar-holiday"><h6>@i</h6><p>@foreach (WorkHour w in Model.WorkHours)
+                { 
+                    if ((int)w.Date.Day == i) { 
+                        <a asp-action="Edit" asp-route-id="@w.WorkHourId">@(w.Hours + " hours")</a>
+                    }
+                }</p></td>
+            }
+            else
+            {
+                @:<td><h6>@i</h6><p>@foreach (WorkHour w in Model.WorkHours)
+                {
+                    if ((int)w.Date.Day == i)
+                    {
+                        <a asp-action="Edit" asp-route-id="@w.WorkHourId">@(w.Hours + " hours")</a>
+                    }
+                }</p></td>
+            }
+        }
+        @for(int a = 1; a <= 7-dayOfWeekLast; a++)
+        {
+            @:<td></td>
+        }
+    </tr>
+</table>
+</div>
+    <a asp-action="Add" asp-route-id="@Model.Employee.EmployeeId">Add Hours</a>
+</div>
+</div>

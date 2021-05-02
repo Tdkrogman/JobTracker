@@ -1,0 +1,39 @@
+﻿@model List<Employee>
+@{
+    ViewBag.Title = "Job Manager";
+}
+<span class="text-success">@TempData["successMessage"]</span>
+<span class="text-danger">@TempData["errorMessage"]</span>
+<h1>Employee Manager</h1>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Phone Number</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var e in Model)
+        {
+            <tr>
+                <td>@e.FullName</td>
+                <td>@e.PhoneNumber</td>
+                <td>@e.Email</td>
+                <td>@e.Role</td>
+                <td>
+                    <a asp-action="Edit"
+                       asp-route-id="@e.EmployeeId" class="btn btn-primary">Edit</a>
+                </td>
+                <td>
+                    <a asp-action="Delete"
+                       asp-route-id="@e.EmployeeId" class="btn btn-outline-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a asp-action="Add" class="btn btn-primary">Add Employee</a>

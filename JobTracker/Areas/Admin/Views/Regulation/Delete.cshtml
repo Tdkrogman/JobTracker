@@ -1,0 +1,15 @@
+﻿@model Regulation
+@{ 
+    ViewBag.Title = "Delete Regulation";
+}
+
+<h2>Confirm Deletion For-</h2>
+<p>Regulation: @Model.Name</p>
+<p>Description: @Model.Description</p>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="RegulationId" />
+
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="List" class="btn btn-primary">Cancel</a>
+</form>

@@ -1,0 +1,54 @@
+﻿@model JobTracker.ViewModels.RegulationListViewModel
+@{ 
+    ViewBag.Title = "View Regulation";
+}
+<span class="text-success">@TempData["successMessage"]</span>
+<span class="text-danger">@TempData["errorMessage"]</span>
+
+<div class="container">
+    <a asp-action="List" class="btn btn-primary">Back</a>
+    <h2>Manage Regulation Requirements</h2>
+    <div class="row pt-2">
+        <label><strong>Regulation Name:&nbsp;</strong></label>
+        <p>@Model.Regulation.Name</p>
+    </div>
+    <div class="row pt-2">
+        <label><strong>Description:&nbsp;</strong></label>
+        <p>@Model.Regulation.Description</p>
+    </div>
+    @if (Model.RegulationRequirements.Count() != 0)
+    {
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Requirements</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var r in Model.RegulationRequirements)
+            {
+                <tr>
+                    <td>
+                        @r.Requirement
+                    </td>
+                    <td>
+                        <a asp-action="EditRequirement"
+                           asp-route-id="@r.RegulationRequirementId" class="btn btn-primary">Edit</a>
+                    </td>
+                    <td>
+                        <a asp-action="DeleteRequirement"
+                           asp-route-id="@r.RegulationRequirementId" class="btn btn-primary">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    }
+    else
+    {
+        <h4>No Requirements Added Yet</h4>
+    }
+    <a asp-action="AddRequirement" asp-route-id="@Model.Regulation.RegulationId" class="btn btn-primary">Add Requirement</a>
+</div>

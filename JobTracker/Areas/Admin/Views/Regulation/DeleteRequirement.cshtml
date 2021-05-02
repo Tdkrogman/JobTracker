@@ -1,0 +1,15 @@
+﻿@model RegulationRequirement
+@{ 
+    ViewBag.Title = "Delete Requirement";
+}
+
+<h2>Confirm Deletion For-</h2>
+<p>Requirement: @Model.Requirement</p>
+
+<form asp-action="DeleteRequirement" method="post">
+    <input type="hidden" asp-for="RegulationRequirementId" />
+    <input type="hidden" asp-for="RegulationId" />
+
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="View" asp-route-id="@Model.RegulationId" class="btn btn-primary">Cancel</a>
+</form>

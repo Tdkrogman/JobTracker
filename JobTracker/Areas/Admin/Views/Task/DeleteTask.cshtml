@@ -1,0 +1,15 @@
+﻿@model JobTracker.Models.Task
+@{
+    ViewBag.Title = "Delete Task";
+}
+
+<h2>Confirm Deletion For-</h2>
+<p>@Model.Name</p>
+
+<form asp-action="DeleteTask" method="post">
+    <input type="hidden" asp-for="TaskId" />
+    <input type="hidden" asp-for="JobId" />
+
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="View" asp-controller="Job" asp-route-id="@Model.JobId" class="btn btn-primary">Cancel</a>
+</form>

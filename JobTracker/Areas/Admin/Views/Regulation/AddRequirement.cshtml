@@ -1,0 +1,21 @@
+﻿@model RegulationRequirement
+@{
+    ViewBag.Title = ViewBag.Action + " Requirement";
+}
+<div class="container">
+    <form asp-action="EditRequirement" method="post">
+        <h1>@ViewBag.Action Requirement</h1>
+
+        <div class="form-group row">
+            <label asp-for="Requirement" class="col-2">Description</label>
+            <textarea asp-for="Requirement" type="text" class="form-control col-4"></textarea>
+            <span asp-validation-for="Requirement" class="text-danger col-6"></span>
+        </div>
+
+        <input type="hidden" asp-for="RegulationId" />
+        <input type="hidden" asp-for="RegulationRequirementId" />
+
+        <input type="submit" value="Save" class="btn btn-primary">
+        <a asp-action="View" asp-route-id="@Model.RegulationId" class="btn btn-primary">Cancel</a>
+    </form>
+</div>

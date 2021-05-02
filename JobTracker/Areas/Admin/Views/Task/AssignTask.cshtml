@@ -1,0 +1,30 @@
+﻿@model TaskAssignment
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    ViewBag.Title = "Assign Task";
+}
+<h1>Make assignment for: @ViewBag.Task-</h1>
+<form asp-action="AssignTask" method="post">
+    <div class="form-group">
+        <label asp-for="EmployeeId">Employee</label>
+        <select class="form-control" asp-for="EmployeeId"
+                asp-items="@(new SelectList(ViewBag.Employees, "EmployeeId", "FullName"))">
+        </select>
+    </div>
+    <input type="hidden" asp-for="TaskId" />
+    <input type="submit" value="Assign" class="btn btn-primary" />
+    <a asp-action="View" asp-controller="Job" asp-route-id="@HttpContextAccessor.HttpContext.Session.GetInt32("currentJob")">Cancel</a>
+</form>
+<br/><br/>
+<form asp-action="AssignTask" method="post">
+    <div class="form-group">
+        <label asp-for="ContractorId">Contractor</label>
+        <select class="form-control" asp-for="ContractorId"
+                asp-items="@(new SelectList(ViewBag.Contractors, "ContractorId", "FullName"))">
+        </select>
+    </div>
+    <input type="hidden" asp-for="TaskId" />
+    <input type="submit" value="Assign" class="btn btn-primary" />
+    <a asp-action="View" asp-controller="Job" asp-route-id="@HttpContextAccessor.HttpContext.Session.GetInt32("currentJob")">Cancel</a>
+</form>

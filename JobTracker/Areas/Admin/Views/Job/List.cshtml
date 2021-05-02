@@ -1,0 +1,51 @@
+﻿@model JobTracker.ViewModels.JobListViewModel
+@{
+    ViewBag.Title = "Job Manager";
+
+    string isActiveFilter(string filter) =>
+        filter == Model.Filter ? "active" : "";
+}
+<span class="text-success">@TempData["successMessage"]</span>
+<span class="text-danger">@TempData["errorMessage"]</span>
+<h1>Job Manager</h1>
+<div class="row nav nav-pills my-3">
+    <a class="nav-item nav-link @isActiveFilter("all")" asp-action="List" asp-route-filter="all">All</a>
+    <a class="nav-item nav-link @isActiveFilter("open")" asp-action="List" asp-route-filter="open">Open</a>
+    <a class="nav-item nav-link @isActiveFilter("waitingOnCustomer")" asp-action="List" asp-route-filter="waitingOnCustomer">Waiting on Customer</a>
+    <a class="nav-item nav-link @isActiveFilter("inProgress")" asp-action="List" asp-route-filter="inProgress">In Progress</a>
+    <a class="nav-item nav-link @isActiveFilter("closed")" asp-action="List" asp-route-filter="closed">Closed</a>
+</div>
+@if (Model.Jobs.Count() == 0)
+{
+    <h2>No Jobs</h2>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Customer</th>
+                <th>Status</th>
+                <th>Est. Start Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var j in Model.Jobs)
+            {
+                <tr>
+                    <td>
+                        <a asp-action="View"
+                           asp-route-id="@j.JobId">@j.Name</a>
+                    </td>
+                    <td>@j.Address</td>
+                    <td>@j.Customer.FullName</td>
+                    <td>@j.Status</td>
+                    <td>@j.StartDate.ToShortDateString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<a asp-action="Add" class="btn btn-primary">Add Job</a>

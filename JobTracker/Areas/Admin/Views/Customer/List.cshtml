@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Customer>
+@{
+    ViewBag.Title = "Customer Manager";
+}
+<h1>Customer Manager</h1>
+<span class="text-success">@TempData["successMessage"]</span>
+<span class="text-danger">@TempData["errorMessage"]</span>
+<div class="table-responsive-sm">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Phone number</th>
+                <th>Email address</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var c in Model)
+            {
+                <tr>
+                    <td>@c.FullName</td>
+                    <td>@c.PhoneNumber</td>
+                    <td>@c.Email</td>
+
+                    <td>
+                        <a asp-action="Edit"
+                           asp-route-id="@c.CustomerId" class="btn btn-primary">Edit</a>
+                    </td>
+                    <td>
+                        <a asp-action="Delete"
+                           asp-route-id="@c.CustomerId" class="btn btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<a asp-action="Add" class="btn btn-primary">Add Customer</a>
